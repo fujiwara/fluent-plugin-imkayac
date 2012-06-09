@@ -1,29 +1,44 @@
 # Fluent::Plugin::Imkayac
 
-TODO: Write a gem description
+Fluentd output plugin to im.kayac.com.
+
+[im.kayac.com](http://im.kayac.com/) is a web service that provides some notification APIs.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'fluent-plugin-imkayac'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install fluent-plugin-imkayac
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+Specify your username of im.kayac.com.
 
-## Contributing
+    <match app.error>
+      type       imkayac
+      username   USERNAME
+      handler    http://example.com
+    </match>
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Using password authentication.
+
+    <match app.error>
+      type       imkayac
+      username   USERNAME
+      password   PASSWORD
+    </match>
+
+Using signing by secret key.
+
+    <match app.error>
+      type       imkayac
+      username   USERNAME
+      secret_key SECRET
+    </match>
+
+### See also
+
+[API documentation](http://im.kayac.com/#docs)
+
+## Copyright
+
+* Copyright (c) 2012- FUJIWARA Shunichiro
+* License: Apache License, Version 2.0
