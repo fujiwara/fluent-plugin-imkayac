@@ -10,12 +10,11 @@ Fluentd output plugin to im.kayac.com.
 
 ## Configuration
 
-Specify your username of im.kayac.com.
+Specify your `username` of im.kayac.com.
 
     <match app.error>
       type       imkayac
       username   USERNAME
-      handler    http://example.com
     </match>
 
 Using password authentication.
@@ -26,7 +25,7 @@ Using password authentication.
       password   PASSWORD
     </match>
 
-Using signing by secret key.
+Using secret authentication.
 
     <match app.error>
       type       imkayac
@@ -34,9 +33,17 @@ Using signing by secret key.
       secret_key SECRET
     </match>
 
+* `handler`: custom url scheme for iPhone application.
+
+    <match app.error>
+      type        imkayac
+      username    USERNAME
+      handler     mailto:foo@example.com
+    </match>
+
 ### See also
 
-[API documentation](http://im.kayac.com/#docs)
+[im.kayac.com API documentation](http://im.kayac.com/#docs)
 
 ## Copyright
 

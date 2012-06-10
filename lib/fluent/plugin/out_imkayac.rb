@@ -31,11 +31,10 @@ class Fluent::ImKayacOutput < Fluent::Output
     super
   end
 
-  def post(tag, record)
+  def post(tag, time, record)
     url = URI.parse( @api_url + @username )
-
     params = {
-      "message" => "#{tag} #{record.to_json}"
+      "message" => "#{tag} at #{Time.at(time).localtime}\n#{record.to_json}",
     }
     params["handler"]  = @handler  if @handler
     params["password"] = @password if @password
@@ -65,7 +64,7 @@ class Fluent::ImKayacOutput < Fluent::Output
 
   def emit(tag, es, chain)
     es.each do |time,record|
-      post(tag, record)
+      post(tag, time, record)
     end
     chain.next
   end
