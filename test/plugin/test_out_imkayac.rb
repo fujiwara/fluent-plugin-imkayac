@@ -11,7 +11,8 @@ class ImKayacOutputTest < Test::Unit::TestCase
     password   test
     secret_key secret
     handler    http://example.com
-#    api_url    http://127.0.0.1:5000/api/post/
+    api_url    http://127.0.0.1:5000/api/post/
+    template   [<%= tag %>] [<%= Time.at(time).strftime('%Y-%m-%d') %>] <%= record['foo'] %>
   ]
 
   def create_driver(conf = CONFIG, tag='test')
@@ -19,7 +20,7 @@ class ImKayacOutputTest < Test::Unit::TestCase
   end
 
   def test_write
-#    d = create_driver
+    d = create_driver
 #    d.emit({"foo" => "test value of foo"})
   end
 end

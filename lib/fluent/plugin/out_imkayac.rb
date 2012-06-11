@@ -6,6 +6,7 @@ class Fluent::ImKayacOutput < Fluent::Output
     require 'net/http'
     require 'digest/sha1'
     require 'json'
+    require 'erb'
   end
 
   config_param :username,   :string
@@ -13,6 +14,7 @@ class Fluent::ImKayacOutput < Fluent::Output
   config_param :password,   :string, :default => nil
   config_param :secret_key, :string, :default => nil
   config_param :api_url,    :string, :default => "http://im.kayac.com/api/post/"
+  config_param :template,   :string, :default => "<%= tag %> at <%= Time.at(time).localtime %>\n<%= record.to_json %>"
 
   def configure(conf)
     super
@@ -34,7 +36,7 @@ class Fluent::ImKayacOutput < Fluent::Output
   def post(tag, time, record)
     url = URI.parse( @api_url + @username )
     params = {
-      "message" => "#{tag} at #{Time.at(time).localtime}\n#{record.to_json}",
+      "message" => ERB.new(@template).result(binding),
     }
     params["handler"]  = @handler  if @handler
     params["password"] = @password if @password
