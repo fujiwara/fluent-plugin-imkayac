@@ -33,7 +33,7 @@ Using secret authentication.
       secret_key SECRET
     </match>
 
-* `handler`: custom url scheme for iPhone application.
+`handler`: custom url scheme for iPhone application.
 
     <match app.error>
       type        imkayac
