@@ -1,4 +1,4 @@
-# Fluent::Plugin::Imkayac
+# Fluent::Plugin::Imkayac, a plugin for [Fluentd](http://fluentd.org)
 
 Fluentd output plugin to im.kayac.com.
 
