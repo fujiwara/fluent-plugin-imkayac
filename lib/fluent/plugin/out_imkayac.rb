@@ -1,6 +1,11 @@
 class Fluent::ImKayacOutput < Fluent::Output
   Fluent::Plugin.register_output('imkayac', self)
 
+  # Define `log` method for v0.10.42 or earlier
+  unless method_defined?(:log)
+    define_method("log") { $log }
+  end
+
   def initialize
     super
     require 'net/http'
@@ -46,21 +51,21 @@ class Fluent::ImKayacOutput < Fluent::Output
       res = Net::HTTP.post_form(url, params)
     rescue IOError, EOFError, SystemCallError
       # server didn't respond
-      $log.warn "out_imkayac: Net::HTTP.post_form raises exception: #{$!.class}, '#{$!.message}'"
+      log.warn "out_imkayac: Net::HTTP.post_form raises exception: #{$!.class}, '#{$!.message}'"
       res = nil
     end
     unless res and res.is_a?(Net::HTTPSuccess)
-      $log.warn "out_imkayac: failed to post to im.kayac.com, code: #{res && res.code}"
+      log.warn "out_imkayac: failed to post to im.kayac.com, code: #{res && res.code}"
       return
     end
     begin
       result = JSON.load(res.body)
     rescue
-      $log.warn "out_imkayac: response body is not valid JSON format: #{$!.class}, '#{$!.message}' #{res.body}"
+      log.warn "out_imkayac: response body is not valid JSON format: #{$!.class}, '#{$!.message}' #{res.body}"
       result = nil
     end
     if result and result["error"] != ""
-      $log.warn "out_imkayac: error from im.kayac.com: #{result['error']}"
+      log.warn "out_imkayac: error from im.kayac.com: #{result['error']}"
     end
   end
 
